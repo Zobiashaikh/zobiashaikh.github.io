@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zobia Shaikh — Portfolio</title>
+<meta name="description" content="Zobia Shaikh: final-year AI & Big Data student in Dubai. Projects in deepfake detection, machine learning and data science.">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0b1e;
+    --purple: #6c3fc5;
+    --purple-light: #9b6ff7;
+    --pink: #e84393;
+    --cyan: #00e5ff;
+    --yellow: #ffe94d;
+    --green: #39ff14;
+    --white: #f0eeff;
+    --grey: #7a7a9d;
+    --card-bg: #1a1535;
+    --card-border: #3d2d7a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    line-height: 1.4;
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect x='0' y='0' width='16' height='16' fill='%2300e5ff'/%3E%3C/svg%3E") 8 8, auto;
+  }
+
+  /* ---- STARS BG ---- */
+  .stars {
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(1px 1px at 10% 15%, white, transparent),
+      radial-gradient(1px 1px at 25% 40%, white, transparent),
+      radial-gradient(1.5px 1.5px at 50% 10%, white, transparent),
+      radial-gradient(1px 1px at 70% 55%, white, transparent),
+      radial-gradient(1.5px 1.5px at 85% 20%, white, transparent),
+      radial-gradient(1px 1px at 40% 70%, white, transparent),
+      radial-gradient(1px 1px at 90% 80%, white, transparent),
+      radial-gradient(1px 1px at 15% 85%, white, transparent),
+      radial-gradient(1.5px 1.5px at 60% 90%, white, transparent),
+      radial-gradient(1px 1px at 35% 25%, white, transparent),
+      var(--bg);
+  }
+
+  /* ---- SCANLINES ---- */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 9999;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+  }
+
+
+  /* ---- SCREENS ---- */
+  .screen {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 1;
+    padding: 60px 24px 60px;
+  }
+
+  /* ---- START SCREEN ---- */
+  #start-screen {
+    flex-direction: column;
+    text-align: center;
+  }
+  .game-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(26px, 5vw, 52px);
+    color: var(--cyan);
+    text-shadow: 0 0 20px var(--cyan), 0 0 40px var(--purple);
+    line-height: 1.3;
+    margin-bottom: 10px;
+    animation: flicker 3s infinite;
+  }
+  .game-subtitle {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(10px, 2vw, 16px);
+    color: var(--purple-light);
+    margin-bottom: 40px;
+  }
+  @keyframes flicker {
+    0%,95%,100% { opacity:1; }
+    96% { opacity:0.8; }
+    97% { opacity:1; }
+    98% { opacity:0.7; }
+    99% { opacity:1; }
+  }
+
+  .pixel-char {
+    font-size: 80px;
+    margin-bottom: 16px;
+    display: block;
+    animation: float 2s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .blink {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    color: var(--yellow);
+    animation: blink 1.2s step-start infinite;
+    margin-top: 30px;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .start-btn {
+    display: inline-block;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    background: var(--pink);
+    color: var(--white);
+    border: none;
+    padding: 16px 36px;
+    margin-top: 20px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 #8b0050, 0 0 20px rgba(232,67,147,0.5);
+    transition: transform .1s, box-shadow .1s;
+    text-decoration: none;
+  }
+  .start-btn:hover {
+    transform: translate(-2px,-2px);
+    box-shadow: 6px 6px 0 #8b0050, 0 0 30px rgba(232,67,147,0.7);
+  }
+  .start-btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 #8b0050; }
+
+  .insert-coin {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--grey);
+    margin-top: 30px;
+    animation: blink 2s step-start infinite;
+  }
+
+  /* ---- WORLD MAP (section select) ---- */
+  #map-screen {
+    flex-direction: column;
+    text-align: center;
+  }
+  .map-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(12px, 2.5vw, 22px);
+    color: var(--yellow);
+    margin-bottom: 50px;
+    text-shadow: 0 0 10px var(--yellow);
+  }
+  .world-map {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .world-node {
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+    cursor: pointer;
+    transition: transform .15s;
+  }
+  .world-node:hover { transform: translateY(-6px); }
+  .world-node:hover .node-icon { box-shadow: 0 0 0 3px var(--yellow), 0 0 20px var(--yellow); }
+  .node-icon {
+    width: 100px; height: 100px;
+    background: var(--card-bg);
+    border: 3px solid var(--purple);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 46px;
+    position: relative;
+    transition: box-shadow .15s;
+  }
+  .node-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--cyan);
+    text-align: center;
+    max-width: 110px;
+    line-height: 1.6;
+  }
+
+  /* ---- GAME POPUP ---- */
+  .popup-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 500;
+    background: rgba(0,0,0,0.85);
+    align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .popup-overlay.active { display: flex; }
+  .popup-window {
+    background: var(--card-bg);
+    border: 3px solid var(--cyan);
+    box-shadow: 0 0 0 6px var(--bg), 0 0 30px var(--cyan);
+    max-width: 700px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    animation: popIn .2s ease-out;
+  }
+  @keyframes popIn {
+    from { transform: scale(0.8); opacity:0; }
+    to { transform: scale(1); opacity:1; }
+  }
+  .popup-bar {
+    background: var(--purple);
+    padding: 10px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--white);
+    position: sticky; top: 0; z-index: 5;
+  }
+  .popup-dots { display: flex; gap: 6px; }
+  .popup-dot {
+    width: 12px; height: 12px;
+    border: 2px solid var(--white);
+    border-radius: 50%;
+  }
+  .close-btn {
+    background: var(--pink);
+    border: 2px solid var(--white);
+    color: var(--white);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: background .1s;
+  }
+  .close-btn:hover { background: #c0305a; }
+  .popup-content { padding: 28px; }
+  .popup-content h2 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    color: var(--cyan);
+    margin-bottom: 20px;
+  }
+
+  /* ---- PROJ CARDS inside popup ---- */
+  .game-proj {
+    background: rgba(255,255,255,0.04);
+    border: 2px solid var(--card-border);
+    border-left: 4px solid var(--cyan);
+    padding: 16px 18px;
+    margin-bottom: 16px;
+    transition: border-color .15s;
+  }
+  .game-proj:hover { border-left-color: var(--yellow); }
+  .game-proj-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 8px; flex-wrap: wrap; gap: 8px;
+  }
+  .game-proj-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--yellow);
+  }
+  .game-chip {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    padding: 3px 8px;
+    border: 1px solid;
+  }
+  .game-chip.live { border-color: var(--green); color: var(--green); }
+  .game-chip.wip { border-color: var(--yellow); color: var(--yellow); }
+  .game-proj-desc { font-size: 18px; color: #c0b8e8; margin-bottom: 10px; }
+  .game-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .game-tag {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    background: rgba(108,63,197,0.3);
+    border: 1px solid var(--purple);
+    padding: 3px 7px;
+    color: var(--purple-light);
+  }
+  .game-proj-link {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--cyan);
+    text-decoration: none;
+    margin-top: 8px;
+    display: inline-block;
+    border-bottom: 1px solid var(--cyan);
+  }
+  .game-proj-link:hover { color: var(--yellow); border-color: var(--yellow); }
+
+  /* ---- SKILL BARS ---- */
+  .skill-bar-row { margin-bottom: 14px; }
+  .skill-bar-label {
+    display: flex; justify-content: space-between;
+    font-family: 'Press Start 2P', monospace; font-size: 9px;
+    color: var(--purple-light); margin-bottom: 6px;
+  }
+  .skill-bar-track {
+    height: 14px; background: #111;
+    border: 2px solid var(--purple);
+    position: relative; overflow: hidden;
+  }
+  .skill-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--purple), var(--cyan));
+    transition: width 1s ease;
+  }
+
+  /* ---- XP LOG ---- */
+  .xp-entry {
+    border: 2px solid var(--card-border);
+    border-left: 4px solid var(--pink);
+    padding: 14px 18px;
+    margin-bottom: 14px;
+    background: rgba(255,255,255,0.03);
+  }
+  .xp-entry-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--pink);
+    margin-bottom: 6px;
+  }
+  .xp-entry-place {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--grey);
+    margin-bottom: 10px;
+  }
+  .xp-entry-desc { font-size: 18px; color: #c0b8e8; }
+
+  /* ---- CONTACT ---- */
+  .contact-links { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 20px; }
+  .contact-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    padding: 14px 20px;
+    text-decoration: none;
+    border: 2px solid;
+    transition: transform .1s, box-shadow .1s;
+    display: inline-block;
+  }
+  .contact-btn.email { background: var(--pink); border-color: var(--pink); color: var(--white); box-shadow: 4px 4px 0 #8b0050; }
+  .contact-btn.gh { background: transparent; border-color: var(--cyan); color: var(--cyan); box-shadow: 4px 4px 0 #006070; }
+  .contact-btn.li { background: transparent; border-color: var(--purple-light); color: var(--purple-light); box-shadow: 4px 4px 0 #3d1f7a; }
+  .contact-btn:hover { transform: translate(-2px,-2px); }
+  .contact-btn.email:hover { box-shadow: 6px 6px 0 #8b0050; }
+  .contact-btn.gh:hover { box-shadow: 6px 6px 0 #006070; }
+  .contact-btn.li:hover { box-shadow: 6px 6px 0 #3d1f7a; }
+  .email-display {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--grey);
+    margin-top: 20px;
+  }
+
+
+  /* ---- FOOTER ---- */
+  .game-footer {
+    text-align: center;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--grey);
+    padding: 30px 20px 50px;
+    position: relative; z-index: 1;
+  }
+
+  /* ---- Scrollbar ---- */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--purple); }
+
+  /* ---- added ---- */
+  .start-chips { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-bottom:20px; }
+  .start-chip { font-family:'Press Start 2P',monospace; font-size:8px; background:rgba(0,229,255,0.1); border:1px solid var(--cyan); color:var(--cyan); padding:6px 12px; }
+  button.world-node, a.world-node { background:none; border:none; color:inherit; font:inherit; padding:0; text-decoration:none; }
+  .world-node:focus-visible .node-icon, .start-btn:focus-visible, .contact-btn:focus-visible, .close-btn:focus-visible, .game-proj-link:focus-visible { outline:3px solid var(--yellow); outline-offset:3px; }
+  .skill-group { font-family:'Press Start 2P',monospace; font-size:9px; color:var(--pink); margin:22px 0 12px; }
+  .tag-cloud { display:flex; gap:8px; flex-wrap:wrap; }
+  .tag-cloud .game-tag { font-size:8px; padding:5px 8px; }
+  .proj-actions { display:flex; gap:16px; flex-wrap:wrap; align-items:center; margin-top:12px; }
+  .proj-actions .game-proj-link { margin-top:0; }
+  .pdf-btn {
+    font-family:'Press Start 2P',monospace; font-size:8px; text-decoration:none;
+    color:var(--bg); background:var(--yellow); border:2px solid var(--yellow);
+    padding:6px 10px; box-shadow:3px 3px 0 #8a7a00; transition:transform .1s, box-shadow .1s;
+  }
+  .pdf-btn:hover { transform:translate(-1px,-1px); box-shadow:4px 4px 0 #8a7a00; }
+  .pdf-btn:focus-visible { outline:3px solid var(--cyan); outline-offset:3px; }
+  .game-chip.design { border-color: var(--purple-light); color: var(--purple-light); }
+  .game-tags { margin-bottom: 4px; }
+  .game-proj-link { margin-top: 12px; }
+  @media(max-width:480px) {
+    .popup-content { padding: 20px 16px; }
+    .contact-btn { width: 100%; text-align:center; }
+  }
+</style>
+</head>
+<body>
+<div class="stars"></div>
+
+<!-- ====== START SCREEN ====== -->
+<section class="screen" id="start-screen">
+  <div style="position:relative; z-index:2;">
+    <span class="pixel-char">👾</span>
+    <div class="game-title">ZOBIA<br>SHAIKH</div>
+    <div class="game-subtitle">AI &amp; BIG DATA · FINAL YEAR · DUBAI</div>
+
+    <div class="start-chips">
+      <span class="start-chip">PYTHON</span>
+      <span class="start-chip">MACHINE LEARNING</span>
+      <span class="start-chip">PYTORCH</span>
+      <span class="start-chip">PANDAS</span>
+      <span class="start-chip">JS/TS</span>
+    </div>
+
+    <br>
+    <a class="start-btn" href="#map-screen">▶ START</a>
+    <div class="insert-coin">[ INSERT COIN TO CONTINUE ]</div>
+  </div>
+</section>
+
+<!-- ====== WORLD MAP ====== -->
+<section class="screen" id="map-screen">
+  <div style="position:relative; z-index:2; width:100%;">
+    <div class="map-title">▸ SELECT LEVEL ◂</div>
+
+    <!-- decorative path line -->
+    <div style="position:absolute; top:50%; left:0; right:0; height:3px; background: repeating-linear-gradient(90deg, var(--purple) 0, var(--purple) 10px, transparent 10px, transparent 20px); opacity:0.4; z-index:-1;"></div>
+
+    <div class="world-map">
+      <a class="world-node" href="#start-screen">
+        <span class="node-icon" style="border-color:var(--purple-light);">🏠</span>
+        <span class="node-label">LEVEL 00<br>HOME</span>
+      </a>
+      <button class="world-node" data-popup="work-popup">
+        <span class="node-icon" style="border-color:var(--cyan);">💻</span>
+        <span class="node-label">LEVEL 01<br>PROJECTS</span>
+      </button>
+      <button class="world-node" data-popup="about-popup">
+        <span class="node-icon" style="border-color:var(--yellow);">🎮</span>
+        <span class="node-label">LEVEL 02<br>ABOUT</span>
+      </button>
+      <button class="world-node" data-popup="xp-popup">
+        <span class="node-icon" style="border-color:var(--pink);">⭐</span>
+        <span class="node-label">LEVEL 03<br>EXPERIENCE</span>
+      </button>
+      <button class="world-node" data-popup="contact-popup">
+        <span class="node-icon" style="border-color:var(--green);">📡</span>
+        <span class="node-label">BONUS<br>CONTACT</span>
+      </button>
+    </div>
+
+    <p style="font-family:'Press Start 2P',monospace; font-size:9px; color:var(--grey); text-align:center; margin-top:44px;">CLICK A LEVEL TO PLAY</p>
+  </div>
+</section>
+
+<!-- ====== POPUPS ====== -->
+
+<!-- WORK POPUP -->
+<div class="popup-overlay" id="work-popup">
+  <div class="popup-window">
+    <div class="popup-bar">
+      <div class="popup-dots"><div class="popup-dot"></div><div class="popup-dot"></div><div class="popup-dot"></div></div>
+      <span>LEVEL 01 — PROJECTS.EXE</span>
+      <button class="close-btn" data-close="work-popup">✕ CLOSE</button>
+    </div>
+    <div class="popup-content">
+      <h2>▸ SELECTED WORK</h2>
+
+      <div class="game-proj">
+        <div class="game-proj-head">
+          <span class="game-proj-name">REELREAL</span>
+          <span class="game-chip live">SHIPPED ✓</span>
+        </div>
+        <div class="game-proj-desc">Deepfake video detector. A Vision Transformer fine-tuned on Celeb-DF (0.98 ROC-AUC) scores each frame, shows a timeline of flagged moments, and signs every verdict with a tamper-proof receipt. Runs as a website and a Chrome extension.</div>
+        <div class="game-tags"><span class="game-tag">PYTORCH</span><span class="game-tag">COMPUTER VISION</span><span class="game-tag">FASTAPI</span><span class="game-tag">JAVASCRIPT</span></div>
+        <a class="game-proj-link" href="https://github.com/Zobiashaikh/reelreal" target="_blank" rel="noopener">VIEW ON GITHUB →</a>
+      </div>
+
+      <div class="game-proj">
+        <div class="game-proj-head">
+          <span class="game-proj-name">BRAINBREW</span>
+          <span class="game-chip live">SHIPPED ✓</span>
+        </div>
+        <div class="game-proj-desc">AI Socratic tutor that turns lecture PDFs into active learning: generates critical-thinking questions across 4 adaptive difficulty levels, with progressive hints and voice input.</div>
+        <div class="game-tags"><span class="game-tag">REACT</span><span class="game-tag">TYPESCRIPT</span><span class="game-tag">GEMINI API</span><span class="game-tag">SUPABASE</span></div>
+        <a class="game-proj-link" href="https://github.com/Zobiashaikh/brainbrew" target="_blank" rel="noopener">VIEW ON GITHUB →</a>
+      </div>
+
+      <div class="game-proj">
+        <div class="game-proj-head">
+          <span class="game-proj-name">AI ROBOT NAVIGATION</span>
+          <span class="game-chip live">SHIPPED ✓</span>
+        </div>
+        <div class="game-proj-desc">Autonomous robot navigation in a ROS/Gazebo simulation, comparing three AI approaches side by side: a fuzzy-logic controller, a behavior tree, and a Q-learning agent trained to reach the goal while avoiding obstacles with 360° LIDAR.</div>
+        <div class="game-tags"><span class="game-tag">PYTHON</span><span class="game-tag">ROS</span><span class="game-tag">REINFORCEMENT LEARNING</span><span class="game-tag">DOCKER</span></div>
+        <a class="game-proj-link" href="https://github.com/Zobiashaikh/gazebo-robot-navigation" target="_blank" rel="noopener">VIEW ON GITHUB →</a>
+      </div>
+
+      <div class="game-proj">
+        <div class="game-proj-head">
+          <span class="game-proj-name">UAE REAL ESTATE PRICE PREDICTION</span>
+          <span class="game-chip live">SHIPPED ✓</span>
+        </div>
+        <div class="game-proj-desc">Machine-learning model that predicts UAE property prices from 5,000+ real 2024 listings. Gradient boosting with engineered features and target encoding, reaching R² 0.78 on unseen data.</div>
+        <div class="game-tags"><span class="game-tag">PYTHON</span><span class="game-tag">SCIKIT-LEARN</span><span class="game-tag">PANDAS</span></div>
+        <a class="game-proj-link" href="https://github.com/Zobiashaikh/uae-real-estate-price-prediction" target="_blank" rel="noopener">VIEW ON GITHUB →</a>
+      </div>
+
+      <div class="game-proj">
+        <div class="game-proj-head">
+          <span class="game-proj-name">MARKET BASKET ANALYSIS</span>
+          <span class="game-chip live">SHIPPED ✓</span>
+        </div>
+        <div class="game-proj-desc">Apriori association-rule mining on 540K+ retail transactions to find which products customers buy together (top pair: 14.5× lift), compared by time of day, with a revenue estimate for bundle offers.</div>
+        <div class="game-tags"><span class="game-tag">PYTHON</span><span class="game-tag">PANDAS</span><span class="game-tag">MLXTEND</span></div>
+        <a class="game-proj-link" href="https://github.com/Zobiashaikh/market-basket-analysis" target="_blank" rel="noopener">VIEW ON GITHUB →</a>
+      </div>
+
+      <div class="game-proj">
+        <div class="game-proj-head">
+          <span class="game-proj-name">PEAR INTERNSHIPS</span>
+          <span class="game-chip live">SHIPPED ✓</span>
+        </div>
+        <div class="game-proj-desc">Full-stack platform connecting students with companies: separate student and company accounts, internship listings with search and filters, CV uploads, and application tracking.</div>
+        <div class="game-tags"><span class="game-tag">JAVASCRIPT</span><span class="game-tag">NODE.JS</span><span class="game-tag">MYSQL</span></div>
+        <a class="game-proj-link" href="https://github.com/Zobiashaikh/pear-internships" target="_blank" rel="noopener">VIEW ON GITHUB →</a>
+      </div>
+
+      <div class="game-proj">
+        <div class="game-proj-head">
+          <span class="game-proj-name">STRATIFY</span>
+          <span class="game-chip design">SYSTEM DESIGN</span>
+        </div>
+        <div class="game-proj-desc">System analysis and design for an EV manufacturer's strategic planning platform: requirements, UML diagrams, three-tier architecture, and UI storyboards.</div>
+        <div class="game-tags"><span class="game-tag">UML</span><span class="game-tag">SYSTEM DESIGN</span></div>
+        <div class="proj-actions">
+          <a class="pdf-btn" href="files/Stratify-System-Design.pdf" download>⬇ DOWNLOAD PDF</a>
+          <a class="game-proj-link" href="https://github.com/Zobiashaikh/stratify" target="_blank" rel="noopener">VIEW ON GITHUB →</a>
+        </div>
+      </div>
+
+      <div class="game-proj">
+        <div class="game-proj-head">
+          <span class="game-proj-name">QUANTOPIAN FAILURE ANALYSIS</span>
+          <span class="game-chip design">CASE STUDY</span>
+        </div>
+        <div class="game-proj-desc">Post-mortem of Quantopian, a fintech startup that raised $48M before shutting down, using the PMBOK framework: structured audits of scope, risk and communication management with scoring checklists and recommendations.</div>
+        <div class="game-tags"><span class="game-tag">PMBOK</span><span class="game-tag">RISK MANAGEMENT</span><span class="game-tag">CASE STUDY</span></div>
+        <div class="proj-actions">
+          <a class="pdf-btn" href="files/Quantopian-Failure-Analysis.pdf" download>⬇ DOWNLOAD PDF</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT POPUP -->
+<div class="popup-overlay" id="about-popup">
+  <div class="popup-window">
+    <div class="popup-bar">
+      <div class="popup-dots"><div class="popup-dot"></div><div class="popup-dot"></div><div class="popup-dot"></div></div>
+      <span>LEVEL 02 — PLAYER.TXT</span>
+      <button class="close-btn" data-close="about-popup">✕ CLOSE</button>
+    </div>
+    <div class="popup-content">
+      <h2>▸ MEET THE PLAYER</h2>
+
+      <div style="background:rgba(0,229,255,0.06); border:2px solid var(--cyan); padding:18px; margin-bottom:28px;">
+        <div style="font-family:'Press Start 2P',monospace; font-size:9px; color:var(--cyan); margin-bottom:10px;">PLAYER STATS</div>
+        <div style="font-size:18px; color:#c0b8e8; line-height:1.7;">
+          Final-year Artificial Intelligence &amp; Big Data student at the University of Wollongong Dubai. I like taking a model all the way from raw data to something people can actually use, whether that's a deepfake detector with a browser extension, a robot that learns to navigate, or a price-prediction model. The most useful data person is one who also understands how the system around the data gets built.
+        </div>
+      </div>
+
+      <h2 style="font-size:12px; margin-bottom:16px;">▸ SKILLS TREE</h2>
+
+      <div class="skill-group">CORE LANGUAGES</div>
+      <div class="skill-bar-row"><div class="skill-bar-label"><span>Python</span><span>★★★★☆</span></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:80%"></div></div></div>
+      <div class="skill-bar-row"><div class="skill-bar-label"><span>SQL</span><span>★★★★☆</span></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:80%"></div></div></div>
+      <div class="skill-bar-row"><div class="skill-bar-label"><span>HTML / CSS</span><span>★★★★☆</span></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:78%"></div></div></div>
+      <div class="skill-bar-row"><div class="skill-bar-label"><span>JavaScript / TypeScript</span><span>★★★☆☆</span></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:65%"></div></div></div>
+
+      <div class="skill-group">DATA &amp; ML LIBRARIES</div>
+      <div class="skill-bar-row"><div class="skill-bar-label"><span>pandas / NumPy</span><span>★★★★☆</span></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:75%"></div></div></div>
+      <div class="skill-bar-row"><div class="skill-bar-label"><span>scikit-learn</span><span>★★★☆☆</span></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:60%"></div></div></div>
+      <div class="skill-bar-row"><div class="skill-bar-label"><span>PyTorch / Hugging Face</span><span>★★★☆☆</span></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:60%"></div></div></div>
+      <div class="skill-bar-row"><div class="skill-bar-label"><span>Matplotlib / Seaborn</span><span>★★★★☆</span></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:75%"></div></div></div>
+
+      <div class="skill-group">AI &amp; DATA TECHNIQUES</div>
+      <div class="tag-cloud">
+        <span class="game-tag">MACHINE LEARNING</span><span class="game-tag">DEEP LEARNING</span><span class="game-tag">COMPUTER VISION</span><span class="game-tag">REINFORCEMENT LEARNING</span><span class="game-tag">FUZZY LOGIC</span><span class="game-tag">REGRESSION</span><span class="game-tag">CLUSTERING</span><span class="game-tag">ASSOCIATION RULE MINING</span><span class="game-tag">FEATURE ENGINEERING</span><span class="game-tag">DATA CLEANING &amp; EDA</span><span class="game-tag">MODEL EVALUATION</span><span class="game-tag">DATA VISUALISATION</span>
+      </div>
+
+      <div class="skill-group">TOOLS &amp; FRAMEWORKS</div>
+      <div class="tag-cloud">
+        <span class="game-tag">JUPYTER</span><span class="game-tag">GOOGLE COLAB</span><span class="game-tag">GIT / GITHUB</span><span class="game-tag">REACT</span><span class="game-tag">NODE.JS</span><span class="game-tag">FASTAPI</span><span class="game-tag">MYSQL</span><span class="game-tag">SUPABASE</span><span class="game-tag">DOCKER</span><span class="game-tag">ROS / GAZEBO</span><span class="game-tag">VS CODE</span><span class="game-tag">EXCEL</span>
+      </div>
+
+      <div class="skill-group">DESIGN &amp; PLANNING</div>
+      <div class="tag-cloud">
+        <span class="game-tag">SYSTEM DESIGN</span><span class="game-tag">UML DIAGRAMS</span><span class="game-tag">REQUIREMENTS ANALYSIS</span><span class="game-tag">PROJECT MANAGEMENT (PMBOK)</span><span class="game-tag">AGILE</span><span class="game-tag">TECHNICAL WRITING</span>
+      </div>
+
+      <div class="skill-group">PROFESSIONAL SKILLS</div>
+      <div class="tag-cloud">
+        <span class="game-tag">PRESENTATIONS &amp; SLIDE DESIGN</span><span class="game-tag">PUBLIC SPEAKING</span><span class="game-tag">PITCHING</span><span class="game-tag">COMMUNICATION</span><span class="game-tag">TEAMWORK</span><span class="game-tag">TEACHING</span><span class="game-tag">EVENT COORDINATION</span><span class="game-tag">PROBLEM SOLVING</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE POPUP -->
+<div class="popup-overlay" id="xp-popup">
+  <div class="popup-window">
+    <div class="popup-bar">
+      <div class="popup-dots"><div class="popup-dot"></div><div class="popup-dot"></div><div class="popup-dot"></div></div>
+      <span>LEVEL 03 — XP.LOG</span>
+      <button class="close-btn" data-close="xp-popup">✕ CLOSE</button>
+    </div>
+    <div class="popup-content">
+      <h2>▸ EXPERIENCE LOG</h2>
+
+      <div class="xp-entry">
+        <div class="xp-entry-title">AI PRODUCT REPRESENTATIVE</div>
+        <div class="xp-entry-place">GITEX NORTH STAR · DUBAI</div>
+        <div class="xp-entry-desc">Represented a startup on the exhibition floor at one of the region's largest tech events, pitching an AI product to a steady flow of visitors — from casual attendees to industry professionals and investors — over multiple days.</div>
+      </div>
+
+      <div class="xp-entry">
+        <div class="xp-entry-title">VOLUNTEER &amp; STUDENT TEACHER</div>
+        <div class="xp-entry-place">GEMS OUR OWN INDIAN SCHOOL · DUBAI</div>
+        <div class="xp-entry-desc">Managed event registration, taught a class of younger students for a day during Students' Day, and ran activity stations for children at school events.</div>
+      </div>
+
+      <div style="font-family:'Press Start 2P',monospace; font-size:8px; color:var(--grey); margin-top:24px; border-top:1px dashed var(--card-border); padding-top:16px; line-height:1.8;">
+        ▸ CURRENTLY SEEKING: GRADUATE ROLES &amp; INTERNSHIPS IN AI AND MACHINE LEARNING
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT POPUP -->
+<div class="popup-overlay" id="contact-popup">
+  <div class="popup-window">
+    <div class="popup-bar">
+      <div class="popup-dots"><div class="popup-dot"></div><div class="popup-dot"></div><div class="popup-dot"></div></div>
+      <span>BONUS STAGE — CONTACT.APP</span>
+      <button class="close-btn" data-close="contact-popup">✕ CLOSE</button>
+    </div>
+    <div class="popup-content" style="text-align:center; padding:40px 28px;">
+      <div style="font-size:60px; margin-bottom:16px;">📡</div>
+      <h2 style="font-size:16px; margin-bottom:14px;">LET'S CONNECT</h2>
+      <div style="font-size:18px; color:#c0b8e8; max-width:420px; margin:0 auto 30px;">
+        Open to graduate roles and internships in AI and machine learning. Happy to talk through any project.
+      </div>
+      <div class="contact-links" style="justify-content:center;">
+        <a class="contact-btn email" href="mailto:shaikhzobia01@gmail.com">✉ EMAIL</a>
+        <a class="contact-btn gh" href="https://github.com/Zobiashaikh" target="_blank" rel="noopener">⌥ GITHUB</a>
+        <a class="contact-btn li" href="https://www.linkedin.com/in/zobia-shaikh-563b2b354" target="_blank" rel="noopener">in LINKEDIN</a>
+      </div>
+      <div class="email-display" style="margin-top:26px;">shaikhzobia01@gmail.com</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="game-footer">
+  ZOBIA.EXE v2026 · BUILT IN DUBAI · ♥ 3 LIVES REMAINING
+</div>
+
+<script>
+  let lastTrigger = null;
+  function openPopup(id) {
+    const overlay = document.getElementById(id);
+    if (!overlay) return;
+    document.querySelectorAll('.popup-overlay.active').forEach(p => p.classList.remove('active'));
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    const close = overlay.querySelector('.close-btn');
+    if (close) close.focus();
+  }
+  function closePopup(id) {
+    document.getElementById(id).classList.remove('active');
+    document.body.style.overflow = '';
+    if (lastTrigger) lastTrigger.focus();
+  }
+  // nav links and level buttons open their popup
+  document.querySelectorAll('[data-popup]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      lastTrigger = el;
+      openPopup(el.dataset.popup);
+    });
+  });
+  // close buttons
+  document.querySelectorAll('[data-close]').forEach(btn => {
+    btn.addEventListener('click', () => closePopup(btn.dataset.close));
+  });
+  // close on overlay click
+  document.querySelectorAll('.popup-overlay').forEach(overlay => {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === this) closePopup(this.id);
+    });
+  });
+  // close on ESC
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.popup-overlay.active').forEach(p => closePopup(p.id));
+    }
+  });
+</script>
+</body>
+</html>
